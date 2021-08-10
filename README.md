@@ -1,10 +1,12 @@
 # Sensu Web Dev
 
 - [Overview](#overview)
+- [Goals](#goals)
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
   - [Manual Installation](#manual-installation)
   - [Docker Compose Installation](#docker-compose-installation)
+- [Completion](#completion)
 
 # Overview
 
@@ -204,3 +206,22 @@ There are two ways to setup the Sensu Web Dev environment: manual installation (
 ### Docker Compose Installation
 
 Coming soon... PRs welcome! 😅
+
+# Completion
+
+After you have completed the exercise:
+
+1. First, ensure that all your changes have been committed.
+
+   ```bash
+   git add .
+   git commit
+   ```
+
+2. Create a git bundle with all your changes.
+
+   ```bash
+   git bundle create completed-assignment.git HEAD
+   ```
+
+3. Finally, email the git bundle to the examiner.
