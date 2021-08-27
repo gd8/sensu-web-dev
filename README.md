@@ -208,7 +208,9 @@ There are two ways to setup the Sensu Web Dev environment: manual installation (
 
 ### Docker Compose Installation
 
-Coming soon... PRs welcome! 😅
+```bash
+docker-compose up
+```
 
 # Completion
 
