@@ -1,0 +1,19 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "flap"
+  labels:
+    region: "us-west-2"
+    imported-from: "bonsai"
+    version: "v2.0.0"
+spec:
+  command: "exit $((RANDOM % 3))"
+  handlers:
+    - "email-me"
+  interval: 180
+  publish: true
+  subscriptions:
+    - "windows"
+    - "www"
+  low_flap_threshold: 5
+  high_flap_threshold: 80

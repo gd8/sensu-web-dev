@@ -1,0 +1,19 @@
+---
+type: "CheckConfig"
+metadata:
+  name: many-handlers
+  labels:
+    imported-from: "github"
+    version: "v1.0.2"
+spec:
+  publish: true
+  command: "exit 2"
+  interval: 240
+  subscriptions:
+    - windows
+    - postgresql
+  handlers:
+    - slack
+    - pagerduty
+    - email-me
+    - minimal

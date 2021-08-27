@@ -1,0 +1,19 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "flap-threshold"
+  labels:
+    imported-from: "gitlab"
+    version: "v1.19.0"
+spec:
+  command: "exit $((RANDOM % 2))"
+  high_flap_threshold: 80
+  interval: 30
+  low_flap_threshold: 10
+  publish: true
+  round_robin: false
+  subscriptions:
+    - "windows"
+    - "www"
+  handlers:
+    - "email-me"

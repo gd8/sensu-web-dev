@@ -34,7 +34,7 @@ metadata:
 spec:
   entity_class: proxy
   subscriptions:
-  - database
+    - database
 
 ---
 type: Entity
@@ -48,7 +48,7 @@ metadata:
 spec:
   entity_class: proxy
   subscriptions:
-  - app
+    - app
 
 ---
 type: Entity
@@ -62,7 +62,7 @@ metadata:
 spec:
   entity_class: proxy
   subscriptions:
-  - database
+    - database
 
 ---
 type: Entity
@@ -76,7 +76,7 @@ metadata:
 spec:
   entity_class: proxy
   subscriptions:
-  - app
+    - app
 
 ---
 type: Entity
@@ -90,7 +90,7 @@ metadata:
 spec:
   entity_class: proxy
   subscriptions:
-  - database
+    - database
 
 ---
 type: Entity
@@ -104,4 +104,4 @@ metadata:
 spec:
   entity_class: proxy
   subscriptions:
-  - database
+    - database

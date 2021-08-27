@@ -1,0 +1,24 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "hooks"
+  labels:
+    imported-from: "bonsai"
+    version: "v0.88.1"
+spec:
+  command: "echo 'runs check hooks'"
+  interval: 180
+  publish: true
+  timeout: 10
+  check_hooks:
+    - ok:
+        - "simple"
+        - "non-zero"
+        - "timeout"
+  handlers:
+    - "email-me"
+  subscriptions:
+    - "windows"
+  env_vars:
+    - "RUBYENV=rubyrubyruby"
+    - "AUTOBAT=idunno"

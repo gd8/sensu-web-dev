@@ -1,0 +1,24 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "subdue"
+  labels:
+    imported-from: "bonsai"
+    version: "v1.18.8"
+spec:
+  cron: "@every 2m"
+  publish: true
+  timeout: 30
+  command: "ping -c 3 google.com"
+  subdue:
+    days:
+      all:
+        - begin: "3:00PM"
+          end: "5:00PM"
+        - begin: "10:00PM"
+          end: "5:00AM"
+  handlers:
+    - email-me
+  subscriptions:
+    - windows
+    - www

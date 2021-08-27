@@ -1,0 +1,23 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "proxy"
+  labels:
+    imported-from: "gitlab"
+    version: "v0.4.0"
+spec:
+  publish: true
+  timeout: 30
+  command: |
+    bat -print h https://www.sensu.io/
+  cron: "*/2 5-20 * * 1-5"
+  proxy_entity_name: "google"
+  round_robin: true
+  handlers:
+    - email-me
+    - slack
+  runtime_assets:
+    - bat
+  subscriptions:
+    - windows
+    - www

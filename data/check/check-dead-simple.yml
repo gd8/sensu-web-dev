@@ -1,0 +1,16 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "simple"
+  labels:
+    imported-from: "bonsai"
+    version: "v0.1.0"
+spec:
+  check_hooks: null
+  command: |
+    echo-asset.sh
+  interval: 600
+  publish: true
+  subscriptions:
+    - "unix"
+    - "www"

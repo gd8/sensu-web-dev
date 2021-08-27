@@ -1,0 +1,25 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "many-env-vars"
+  labels:
+    imported-from: "bonsai"
+    version: "v2.0.0"
+spec:
+  command: "echo 'i have lots of env vars'"
+  publish: true
+  timeout: 60
+  interval: 900
+  handlers:
+    - "slack"
+    - "pagerduty"
+  subscriptions:
+    - "kafka"
+    - "www"
+  env_vars:
+    - "RUBYENV=rubyrubyruby"
+    - "AUTOBAT=idunno"
+    - "JVMPATH=wowok"
+    - "GOPATH=/home/go/path/long/stuff/okay/wow/too.much"
+    - "WHATALONGKEYOUHAVETHERE=short-value-tho"
+    - "SKEY=very-long-value-here-and-wow-lots-of-stuff-to-convey-here-very-important;$SKEY"

@@ -1,0 +1,23 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "proxy-exit-non-zero"
+  labels:
+    region: "us-west-2"
+    imported-from: "bonsai"
+    version: "v12.2.19"
+spec:
+  publish: true
+  command: 'bat -print "h" https://call.google.com'
+  timeout: 30
+  cron: "*/5 5-20 * * *"
+  proxy_entity_name: "google"
+  round_robin: true
+  handlers:
+    - "slack"
+    - "email-me"
+  subscriptions:
+    - "windows"
+    - "www"
+  runtime_assets:
+    - "bat"

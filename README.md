@@ -17,12 +17,13 @@ The primary objective of this project is to provide a simple local development e
 
 ## User Stories
 
-We need to build a application that allows our users to manage the entities within their Sensu installation.
+We need to build a application that allows our users to manage checks within their Sensu installation.
 
-- A user must be able to list the entities within their Sensu installation.
-- A user must be able to sort the list of entities.
-- A user must be able to filter the list of entities.
-- A user must be able to delete entities.
+- A user must be able to switch between namespaces.
+- A user must be able to view all checks within the selected namespace.
+- A user must be able to sort the list of checks. (Unless you want to, you may sort in the client.)
+- A user must be able to filter the list of checks using your chosen method of fuzzy matching.
+- A user must be able to delete checks. (Keep the user experience in mind.)
 
 To get you up and running quickly, we provide a simple base application that can connect to our GraphQL service. See below for setup instructions.
 
@@ -38,7 +39,7 @@ Be prepared to discuss,
 
 Bonus
 
-Visualize events associated with the entity. Or, other anything else you might find interesting, we love surprises.
+Allow users to be able to view individual checks. Or, anything else you might find interesting, we love surprises.
 
 ## Time
 
@@ -70,138 +71,140 @@ There are two ways to setup the Sensu Web Dev environment: manual installation (
 
 ### Manual Installation
 
-1. **Clone this repository.**
+1.  **Clone this repository.**
 
-   ```shell
-   git clone https://github.com/sensu/sensu-web-dev.git
-   cd sensu-web-dev
-   ```
+    ```shell
+    git clone https://github.com/sensu/sensu-web-dev.git
+    cd sensu-web-dev
+    ```
 
-1. **Download and start the Sensu Backend/API using Docker.**
+1.  **Download and start the Sensu Backend/API using Docker.**
 
-   ```shell
-   docker run -d --rm --name sensu-backend \
-   -p 8080:8080 -p 3000:3000 \
-   sensu/sensu:6.4.0 sensu-backend start
-   ```
+    ```shell
+    docker run -d --rm --name sensu-backend \
+    -p 8080:8080 -p 3000:3000 \
+    sensu/sensu:6.4.0 sensu-backend start
+    ```
 
-   _NOTE: if your Docker installation requires `root` user privileges, you may need to re-run this command with `sudo` (i.e. `sudo docker run ...`);
-   Windows users may need to run `docker` commands in a shell with Administrator privileges._
+    _NOTE: if your Docker installation requires `root` user privileges, you may need to re-run this command with `sudo` (i.e. `sudo docker run ...`);
+    Windows users may need to run `docker` commands in a shell with Administrator privileges._
 
-   After completing this step you should be able to verify your install by visiting the Sensu web app at http://127.0.0.1:8080.
+    After completing this step you should be able to verify your install by visiting the Sensu web app at http://127.0.0.1:8080.
 
-1. **Download and configure the Sensu CLI (`sensuctl`)**
+1.  **Download and configure the Sensu CLI (`sensuctl`)**
 
-   **Mac users:**
+    **Mac users:**
 
-   ```shell
-   # Download sensuctl
-   export SENSU_VERSION="6.4.0"
-   export SENSU_USERNAME="admin"
-   export SENSU_PASSWORD="P@ssw0rd!"
-   curl -LO "https://s3-us-west-2.amazonaws.com/sensu.io/sensu-go/${SENSU_VERSION}/sensu-go_${SENSU_VERSION}_darwin_amd64.tar.gz"
-   sudo tar -xzf "sensu-go_${SENSU_VERSION}_darwin_amd64.tar.gz" -C /usr/local/bin/
-   rm sensu-go_${SENSU_VERSION}_darwin_amd64.tar.gz
-   # Configure sensuctl
-   sensuctl configure --non-interactive --namespace default --api-url http://127.0.0.1:8080 --username ${SENSU_USERNAME} --password ${SENSU_PASSWORD}
-   ```
+    ```shell
+    # Download sensuctl
+    export SENSU_VERSION="6.4.0"
+    export SENSU_USERNAME="admin"
+    export SENSU_PASSWORD="P@ssw0rd!"
+    curl -LO "https://s3-us-west-2.amazonaws.com/sensu.io/sensu-go/${SENSU_VERSION}/sensu-go_${SENSU_VERSION}_darwin_amd64.tar.gz"
+    sudo tar -xzf "sensu-go_${SENSU_VERSION}_darwin_amd64.tar.gz" -C /usr/local/bin/
+    rm sensu-go_${SENSU_VERSION}_darwin_amd64.tar.gz
+    # Configure sensuctl
+    sensuctl configure --non-interactive --namespace default --api-url http://127.0.0.1:8080 --username ${SENSU_USERNAME} --password ${SENSU_PASSWORD}
+    ```
 
-   **Windows users (Powershell):**
+    **Windows users (Powershell):**
 
-   ```powershell
-   # Download sensuctl
-   ${Env:SENSU_VERSION}="6.4.0"
-   ${Env:SENSU_USERNAME}="admin"
-   ${Env:SENSU_PASSWORD}="P@ssword!"
-   Invoke-WebRequest `
-     -Uri "https://s3-us-west-2.amazonaws.com/sensu.io/sensu-go/${Env:SENSU_VERSION}/sensu-go_${Env:SENSU_VERSION}_windows_amd64.zip" `
-     -OutFile "${Env:UserProfile}\sensu-go_${Env:SENSU_VERSION}_windows_amd64.zip"
-   Expand-Archive `
-     -LiteralPath "${Env:UserProfile}\sensu-go_${Env:SENSU_VERSION}_windows_amd64.zip" `
-     -DestinationPath "${Env:UserProfile}\Sensu\bin"
-   ${Env:Path} += ";${Env:UserProfile}\Sensu\bin"
-   # Configure sensuctl
-   sensuctl configure --non-interactive --namespace default --api-url http://127.0.0.1:8080 --username ${Env:SENSU_USERNAME} --password ${Env:SENSU_PASSWORD}
-   ```
+    ```powershell
+    # Download sensuctl
+    ${Env:SENSU_VERSION}="6.4.0"
+    ${Env:SENSU_USERNAME}="admin"
+    ${Env:SENSU_PASSWORD}="P@ssword!"
+    Invoke-WebRequest `
+      -Uri "https://s3-us-west-2.amazonaws.com/sensu.io/sensu-go/${Env:SENSU_VERSION}/sensu-go_${Env:SENSU_VERSION}_windows_amd64.zip" `
+      -OutFile "${Env:UserProfile}\sensu-go_${Env:SENSU_VERSION}_windows_amd64.zip"
+    Expand-Archive `
+      -LiteralPath "${Env:UserProfile}\sensu-go_${Env:SENSU_VERSION}_windows_amd64.zip" `
+      -DestinationPath "${Env:UserProfile}\Sensu\bin"
+    ${Env:Path} += ";${Env:UserProfile}\Sensu\bin"
+    # Configure sensuctl
+    sensuctl configure --non-interactive --namespace default --api-url http://127.0.0.1:8080 --username ${Env:SENSU_USERNAME} --password ${Env:SENSU_PASSWORD}
+    ```
 
-   **Linux users:**
+    **Linux users:**
 
-   ```shell
-   # Download sensuctl
-   export SENSU_VERSION="6.4.0"
-   export SENSU_USERNAME="admin"
-   export SENSU_PASSWORD="P@ssw0rd!"
-   curl -LO "https://s3-us-west-2.amazonaws.com/sensu.io/sensu-go/${SENSU_VERSION}/sensu-go_${SENSU_VERSION}_linux_amd64.tar.gz" && \
-   sudo tar -xzf "sensu-go_${SENSU_VERSION}_linux_amd64.tar.gz" -C /usr/local/bin/ && \
-   rm "sensu-go_${SENSU_VERSION}_linux_amd64.tar.gz"
-   # Configure sensuctl
-   sensuctl configure --non-interactive --namespace default --api-url http://127.0.0.1:8080 --username ${SENSU_USERNAME} --password ${SENSU_PASSWORD}
-   ```
+    ```shell
+    # Download sensuctl
+    export SENSU_VERSION="6.4.0"
+    export SENSU_USERNAME="admin"
+    export SENSU_PASSWORD="P@ssw0rd!"
+    curl -LO "https://s3-us-west-2.amazonaws.com/sensu.io/sensu-go/${SENSU_VERSION}/sensu-go_${SENSU_VERSION}_linux_amd64.tar.gz" && \
+    sudo tar -xzf "sensu-go_${SENSU_VERSION}_linux_amd64.tar.gz" -C /usr/local/bin/ && \
+    rm "sensu-go_${SENSU_VERSION}_linux_amd64.tar.gz"
+    # Configure sensuctl
+    sensuctl configure --non-interactive --namespace default --api-url http://127.0.0.1:8080 --username ${SENSU_USERNAME} --password ${SENSU_PASSWORD}
+    ```
 
-1. **Pre-seed the Sensu API with sample data.**
+1.  **Pre-seed the Sensu API with sample data.**
 
-   ```shell
-   sensuctl create -f data/sample.yaml
-   ```
+    ```shell
+    sensuctl create -f data/sample.yaml
+    sensuctl create --namespace development -f data/check
+    ```
 
-   Verify that the sample data was created using the following commands:
+    Verify that the sample data was created using the following commands:
 
-   - Run the `sensuctl namespace list` command.
+    - Run the `sensuctl namespace list` command.
 
-     You should see output similar to the following:
+      You should see output similar to the following:
 
-     ```shell
-     $ sensuctl namespace list
-          Name
-     ───────────────
-       default
-       development
-       production
-       staging
-     ```
+      ```shell
+      $ sensuctl namespace list
+           Name
+      ───────────────
+        default
+        development
+        production
+        staging
+      ```
 
-   - Run the `sensuctl entity list` command.
+    - Run the `sensuctl check list` command.
 
-     You should see output similar to the following:
+      You should see output similar to the following:
 
-     ```shell
-     $ sensuctl entity list --all-namespaces
-             ID         Class      OS                       Subscriptions                              Last Seen
-     ───────────────── ─────── ────────── ───────────────────────────────────────────────── ────────────────────────────────
-       db01             agent   linux      system/linux,workshop,devel,entity:28b2d129bd90   2021-08-05 17:02:56 -0700 PDT
-       app0             proxy   Workshop   entity:learn.sensu.io                             N/A
-     ```
+      ```shell
+      $ sensuctl check list --namespace development
+      Name Command Interval Cron Timeout TTL...
+      ────────────────────── ────────────────────────────────────────────── ────────── ────────────────── ───────── ─────
+      crontab echo $RANDOM 0 _/5 _ \* \* 1-5 0 0 windows,kibana true false
+      flap exit $((RANDOM % 3)) 180 0 0 windows,www email-me true false
+      flap-threshold exit $((RANDOM % 2)) 30 0 0 windows,www email-me true false
+      ```
 
-1. **Create a Sensu API Key.**
+1.  **Create a Sensu API Key.**
 
-   - Generate a Sensu API Key using the `sensuctl api-key grant admin` command:
+    - Generate a Sensu API Key using the `sensuctl api-key grant admin` command:
 
-     ```
-     $ sensuctl api-key grant admin
-     Created: /api/core/v2/apikeys/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-     ```
+      ```
+      $ sensuctl api-key grant admin
+      Created: /api/core/v2/apikeys/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      ```
 
-   - Add the API Key to the `.env.local` file provided in this repository:
+    - Add the API Key to the `.env.local` file provided in this repository:
 
-     Copy the API key output from the `sensuctl api-key grant admin` command (the `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` part of the output) to the `.env.local` file
+      Copy the API key output from the `sensuctl api-key grant admin` command (the `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` part of the output) to the `.env.local` file
 
-     ```ruby
-     SENSU_API_URL="http://127.0.0.1:8080"
-     SENSU_API_KEY="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-     PORT=7678
-     ```
+      ```ruby
+      SENSU_API_URL="http://127.0.0.1:8080"
+      SENSU_API_KEY="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+      PORT=7678
+      ```
 
-1. **Install the ReactJS project dependencies & start the sample app.**
+1.  **Install the ReactJS project dependencies & start the sample app.**
 
-   ```bash
-   npm install
-   npm start
-   ```
+    ```bash
+    npm install
+    npm start
+    ```
 
-   Verify that you have successfully completed the installation by visiting [http://127.0.0.1:7678](http://127.0.0.1:7678) in your browser.
-   If you see a message like "connected to cluster running 6.4.0" then you have successfully completed this setup.
+    Verify that you have successfully completed the installation by visiting [http://127.0.0.1:7678](http://127.0.0.1:7678) in your browser.
+    If you see a message like "connected to cluster running 6.4.0" then you have successfully completed this setup.
 
-1. **Good luck & have fun!**
+1.  **Good luck & have fun!**
 
 ### Docker Compose Installation
 

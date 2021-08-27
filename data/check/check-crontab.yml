@@ -1,0 +1,14 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "crontab"
+  labels:
+    imported-from: "google"
+    version: "v1.0.9"
+spec:
+  cron: "*/5 * * * 1-5"
+  command: "echo $RANDOM"
+  publish: true
+  subscriptions:
+    - "windows"
+    - "kibana"

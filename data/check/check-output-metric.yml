@@ -1,0 +1,19 @@
+---
+type: "CheckConfig"
+metadata:
+  name: output-metric
+  labels:
+    imported-from: "bonsai"
+    version: "v2.1.0"
+spec:
+  publish: true
+  command: "echo 'metrix'"
+  timeout: 60
+  interval: 300
+  output_metric_format: "opentsdb_line"
+  output_metric_handlers:
+    - "slack"
+    - "pagerduty"
+  subscriptions:
+    - "kafka"
+    - "www"

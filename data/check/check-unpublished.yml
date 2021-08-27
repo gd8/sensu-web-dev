@@ -1,0 +1,17 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "unpublished"
+  labels:
+    imported-from: "bonsai"
+    version: "v5.0.1-rc.1"
+spec:
+  command: "bat https://www.sensu.io"
+  interval: 300
+  runtime_assets:
+    - "bat"
+  handlers:
+    - "email-me"
+  subscriptions:
+    - "RPi"
+    - "kafka"

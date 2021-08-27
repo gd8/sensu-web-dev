@@ -1,0 +1,19 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "ping-google"
+  labels:
+    region: "us-west-2"
+    imported-from: "bonsai"
+    version: "v5.0.1"
+spec:
+  publish: true
+  command: 'bat -print "h" https://www.google.com/search'
+  interval: 300
+  handlers:
+    - "slack"
+  subscriptions:
+    - "www"
+    - "unix"
+  runtime_assets:
+    - "bat"

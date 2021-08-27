@@ -1,0 +1,19 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "ttl"
+  labels:
+    imported-from: "gitlab"
+    version: "v0.9.1"
+spec:
+  ttl: 30
+  publish: true
+  cron: "*/2 * * * *"
+  command: "sleep 10"
+  handlers:
+    - email-me
+  subscriptions:
+    - windows
+    - www
+  low_flap_threshold: 40
+  high_flap_threshold: 80

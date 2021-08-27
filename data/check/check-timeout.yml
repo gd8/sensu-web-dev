@@ -1,0 +1,15 @@
+---
+type: "CheckConfig"
+metadata:
+  name: "timeout"
+  labels:
+    imported-from: "bonsai"
+    version: "v5.0.1"
+spec:
+  publish: true
+  timeout: 5
+  command: "sleep 15"
+  interval: 180
+  subscriptions:
+    - unix
+    - redis
