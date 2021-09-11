@@ -1,12 +1,9 @@
 .App {
   color: #333;
   background-color: #f3e9e3;
-
+  height: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding-bottom: 5rem;
 }
 
 .App-logo {
@@ -17,10 +14,4 @@
 
 .App-header {
   font-size: calc(10px + 2vmin);
-}
-
-.App-body {
-  text-align: center;
-  font-size: max(10pt, 1vmin);
-  max-width: 65ch;
 }
