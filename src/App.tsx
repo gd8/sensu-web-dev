@@ -1,12 +1,10 @@
-import React from "react";
-
-// TODO: Implement me!
-// import ChecksList from "./ChecksList";
-// import NamespaceSelector from "./NamespaceSelector";
-import Welcome from "./Welcome";
-
-import logo from "./logo.svg";
-import "./App.css";
+import React from 'react';
+import './App.css';
+import ChecksList from './components/ChecksList';
+import { ChecksSearch } from './components/ChecksSearch';
+import { Notification } from './components/Notification';
+import { SearchStore } from './contexts/SearchContext';
+import logo from './logo.svg';
 
 function App() {
   return (
@@ -15,12 +13,12 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
       </header>
 
-      <div className="App-body">
-        <Welcome />
-
-        {/* TODO: Implement me! */}
-        {/* <NamespaceSelector /> */}
-        {/* <ChecksList /> */}
+      <div className="container">
+        <SearchStore>
+          <Notification />
+          <ChecksSearch />
+          <ChecksList />
+        </SearchStore>
       </div>
     </div>
   );
