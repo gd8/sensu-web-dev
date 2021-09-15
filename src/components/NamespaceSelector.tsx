@@ -52,7 +52,7 @@ const NamespaceSelector = ({ onSelect }: any) => {
   }
   return (
     <div className="field">
-      <label className="label">Subject</label>
+      <label className="label">Namespace</label>
       <div className="control">
         <div className="select">
           <select

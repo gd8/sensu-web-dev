@@ -15,7 +15,7 @@ export const ChecksFilter = () => {
         <input
           type="text"
           className="input"
-          placeholder="Enter Filters"
+          placeholder="Filter By Name"
           value={filters}
           onChange={onFilterChange}
         />
